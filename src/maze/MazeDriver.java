@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.List;
 import javafx.scene.Scene;
 public class MazeDriver{
-  public static void main (String args[]){
+  public static void main (String args[]) throws InvalidMazeException, OutOfMazeException{
     //Coordinate newCoord = new Coordinate(1,2);
     //System.out.println(newCoord.toString());
     /*
@@ -18,5 +18,6 @@ public class MazeDriver{
     Maze newMaze = Maze.fromTxt("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/maze1.txt");
     System.out.print(newMaze.toString());
     System.out.println(newMaze.getDimensions()[0]+ "," + newMaze.getDimensions()[1]);
+
   }
 }
