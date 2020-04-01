@@ -15,9 +15,10 @@ public class MazeDriver{
         System.out.println(newMaze.getTileAtLocation(new Coordinate(x,y)).toString());
       }
     }*/
-    Maze newMaze = Maze.fromTxt("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/maze1.txt");
+    Maze newMaze = Maze.fromTxt("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/maze2.txt");
     System.out.print(newMaze.toString());
     System.out.println(newMaze.getDimensions()[0]+ "," + newMaze.getDimensions()[1]);
-
+    BoolArray bMap = BoolArray.ScanMaze(newMaze);
+    System.out.print(bMap.toString());
   }
 }
