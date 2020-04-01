@@ -1,6 +1,14 @@
 package maze.routing;
 import java.util.Stack;
 import maze.*;
+/*
+import maze.BoolArray;
+import maze.Coordinate;
+import maze.Direction;
+import maze.InvalidMazeException;
+import maze.Maze.java;
+import maze.MultipleEntranceException;
+*/
 import java.util.List;
 public class RouteFinder{
 
