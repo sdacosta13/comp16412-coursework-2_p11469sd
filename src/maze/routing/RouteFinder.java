@@ -9,6 +9,9 @@ import maze.InvalidMazeException;
 import maze.Maze.java;
 import maze.MultipleEntranceException;
 */
+
+
+
 import java.util.List;
 public class RouteFinder{
 
@@ -18,6 +21,7 @@ public class RouteFinder{
   private BoolArray bMap;
   public final Direction[] dirs = {Direction.NORTH,Direction.EAST,Direction.SOUTH,Direction.WEST};
   public RouteFinder(Maze maze){
+    this.route = new Stack<Tile>();
     this.maze = maze;
     this.bMap = new BoolArray(this.maze.getDimensions());
     route.push(this.maze.getEntrance());
@@ -26,10 +30,9 @@ public class RouteFinder{
   public Boolean step(){
     Tile initial = route.pop();
     route.push(initial);
-    Tile next;
     boolean dead = true;
     for (int i = 0; i < 4; i++){
-      next = this.maze.getAdjacentTile(initial, dirs[i]);
+      Tile next = this.maze.getAdjacentTile(initial, dirs[i]);
       if(next.getType() != Type.WALL && !this.route.contains(next) && !this.bMap.isVisited(next.getCoords())){
         route.push(next);
         this.bMap.visit(next.getCoords());
