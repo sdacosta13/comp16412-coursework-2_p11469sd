@@ -26,29 +26,32 @@ public class Maze{
     try{
       FileReader newFile = new FileReader(path);
       int i;
+      int dimX = 0;
       int x = 0;
       int y = 0;
-      boolean countX = true;
+      boolean setDim = true;
       char curChar = ' ';
       //newTiles.add(new ArrayList<Tile>());
       while ((i=newFile.read()) != -1){
         curChar = (char) i;
         if(curChar != '\n'){
-          if(countX){
-            //this method is error prone to different line lengths
-            x += 1;
-          }
-
           Tile newTile = Tile.fromChar(curChar);
+          newTile.setCoords(new Coordinate(x,y));
           newTiles.get(y).add(newTile);
+          x+= 1;
+          if(setDim){
+            //this method is error prone to different line lengths
+            dimX += 1;
+          }
         } else {
-          countX = false;
+          x = 0;
+          setDim = false;
           y += 1;
           newTiles.add(new ArrayList<Tile>());
         }
 
       }
-      newMaze.setDimensions(x,y);
+      newMaze.setDimensions(dimX,y);
       newMaze.setTiles(newTiles);
 
     } catch (FileNotFoundException e) {

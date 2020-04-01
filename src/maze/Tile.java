@@ -3,6 +3,7 @@ package maze;
 public class Tile{
   private Type type;
   private boolean navigable;
+  private Coordinate coords;
   private Tile(Type type){
     this.type = type;
     if(this.type == Type.WALL){
@@ -47,5 +48,11 @@ public class Tile{
         return "x";
     }
     return null;
+  }
+  public void setCoords(Coordinate coords){
+    this.coords = coords;
+  }
+  public Coordinate getCoords(){
+    return this.coords;
   }
 }
