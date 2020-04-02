@@ -1,6 +1,6 @@
 package maze;
-
-public class Tile{
+import java.io.*;
+public class Tile implements Serializable{
   private Type type;
   private boolean navigable;
   private Coordinate coords;

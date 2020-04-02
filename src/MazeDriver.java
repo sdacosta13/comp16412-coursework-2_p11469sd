@@ -17,13 +17,19 @@ public class MazeDriver{
       }
     }*/
     Maze newMaze = Maze.fromTxt("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/maze2.txt");
-    System.out.print(newMaze.toString());
-    RouteFinder r = new RouteFinder(newMaze);
+    //RouteFinder r = new RouteFinder(newMaze);
     Boolean f = false;
-    while(!f){
-      f = r.step();
-      System.out.print(r.toString());
-      System.out.println();
-    }
+    // for(int i = 0; i < 10; i++){
+    //   f = r.step();
+    //   System.out.print(r.toString());
+    //   System.out.println();
+    // }
+    // r.Save("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/RouteFinderM1.obj");
+    RouteFinder r = RouteFinder.load("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/RouteFinderM2.obj");
+    // for(int i = 0; i < 20; i++){
+    //   r.step();
+    // }
+    // r.Save("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/RouteFinderM2.obj")
+    System.out.print(r.toString());
   }
 }

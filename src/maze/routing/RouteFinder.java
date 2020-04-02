@@ -1,19 +1,9 @@
 package maze.routing;
 import java.util.Stack;
 import maze.*;
-/*
-import maze.BoolArray;
-import maze.Coordinate;
-import maze.Direction;
-import maze.InvalidMazeException;
-import maze.Maze.java;
-import maze.MultipleEntranceException;
-*/
-
-
-
+import java.io.*;
 import java.util.List;
-public class RouteFinder{
+public class RouteFinder implements Serializable{
 
   private Maze maze;
   private Stack<Tile> route;
@@ -64,10 +54,33 @@ public class RouteFinder{
     return this.finished;
   }
   public static RouteFinder load(String path){
-    return null;
+    RouteFinder r = null;
+    try{
+      FileInputStream fis = new FileInputStream(path);
+      ObjectInputStream ois = new ObjectInputStream(fis);
+      Object obj = ois.readObject();
+      ois.close();
+      r = (RouteFinder) obj;
+
+    } catch (IOException e){
+      System.out.println("IOException occured");
+      e.printStackTrace();
+    } catch (ClassNotFoundException e){
+      System.out.println("Class: %s not found".format(path));
+      e.printStackTrace();
+    }
+    return r;
   }
-  public void Save(String filename){
-    ;
+  public void Save(String path){
+    try{
+      FileOutputStream fos = new FileOutputStream(path);
+      ObjectOutputStream oos = new ObjectOutputStream(fos);
+      oos.writeObject(this);
+      oos.close();
+    } catch (IOException e) {
+      System.out.println("IOException occured");
+      e.printStackTrace();
+    }
   }
   public String toString(){
     //Draw bMap first

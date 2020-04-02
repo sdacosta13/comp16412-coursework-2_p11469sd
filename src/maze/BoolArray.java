@@ -3,7 +3,8 @@
 package maze;
 import java.util.ArrayList;
 import maze.*;
-public class BoolArray{
+import java.io.*;
+public class BoolArray implements Serializable{
   private ArrayList<ArrayList<Boolean>> array;
   public BoolArray(int[] dimensions){
     ArrayList<ArrayList<Boolean>> newArray = new ArrayList<ArrayList<Boolean>>();

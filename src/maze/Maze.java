@@ -1,7 +1,7 @@
 package maze;
 import java.io.*;
 import java.util.ArrayList;
-public class Maze{
+public class Maze implements Serializable{
   private Tile entrance;
   private Tile exit;
   private ArrayList<ArrayList<Tile>> tiles;
@@ -70,6 +70,8 @@ public class Maze{
         } else if (curChar == 'x'){
           exitsSeen += 1;
           exitLoc = new Coordinate(x,y);
+        } else if (curChar != '#' && curChar != '.' && curChar != '\n'){
+          throw new RaggedMazeException(String.format("Char: %c found in maze",curChar));
         }
         if(curChar != '\n'){
           Tile newTile = Tile.fromChar(curChar);

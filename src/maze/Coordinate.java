@@ -1,5 +1,6 @@
 package maze;
-public class Coordinate{
+import java.io.*;
+public class Coordinate implements Serializable{
   private int x;
   private int y;
   public Coordinate(int i, int j){
