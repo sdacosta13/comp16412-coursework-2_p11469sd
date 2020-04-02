@@ -60,6 +60,7 @@ public class MazeApplication extends Application{
 
     Group buttons = new Group(step, load, loadR, saveR);
     load.addEventHandler(MouseEvent.MOUSE_CLICKED, new LoadMazeHandle(this.stage, buttons, this));
+    step.addEventHandler(MouseEvent.MOUSE_CLICKED, new StepHandle(this.stage, buttons, this));
     return buttons;
   }
   public ArrayList<Rectangle> printRouteFinder(String stringMaze){
