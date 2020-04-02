@@ -8,7 +8,9 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.event.*;
 import java.io.File;
+import java.util.ArrayList;
 import maze.*;
+import maze.routing.RouteFinder;
 
 public class MazeApplication extends Application{
   public Group objs;
@@ -41,36 +43,46 @@ public class MazeApplication extends Application{
         Group newGroup = this.getBaseGroup();
         try{
           Maze m = Maze.fromTxt(path);
-          this.setRouteFinder(RouteFinder(m));
+          this.setRouteFinder(new RouteFinder(m));
           int yOffset = 90;
 
           this.stage.hide();
           newGroup.getChildren().addAll(objs.getChildren());
 
-          for(int y = 0; y < m.getDimensions()[1]; y++){
-            for(int x = 0; x < m.getDimensions()[0]; x++){
-              Tile t = m.getTileAtLocation(new Coordinate(x,y));
-              Rectangle newRect = new Rectangle(x*this.cellSize,(y*this.cellSize)+yOffset,this.cellSize,this.cellSize);
-
-              if(t.getType() == Type.CORRIDOR){
-                newRect.setFill(Color.GREY);
-              } else if (t.getType() == Type.WALL){
-                newRect.setFill(Color.BLACK);
-              } else if (t.getType() == Type.ENTRANCE){
-                newRect.setFill(Color.YELLOW);
-              } else {
-                newRect.setFill(Color.RED);
-              }
-              newGroup.getChildren().add(newRect);
-            }
+          String stringMaze = this.getRouteFinder().toString();
+          ArrayList rects = this.printRouteFinder(stringMaze, yOffset);
+          for(int i = 0; i < rects.size(); i++){
+            Rectangle newRect = (Rectangle) rects.get(i);
+            newGroup.getChildren().add(newRect);
           }
+
+
+
           Button step = new Button("Step");
           step.setPrefSize(90,30);
           step.setLayoutX(0);
           step.setLayoutY(yOffset + (m.getDimensions()[1]*this.cellSize));
 
           step.setOnAction((f) -> {
-            this.getRouteFinder().step();
+            try{
+              Group newGroup2 = this.getBaseGroup();
+              this.stage.hide();
+              this.getRouteFinder().step();
+              String stringMaze2 = this.getRouteFinder().toString();
+              ArrayList<Rectangle> rects2 = this.printRouteFinder(stringMaze, yOffset);
+              for(int i = 0; i < rects.size(); i++){
+                Rectangle newRect = (Rectangle) rects.get(i);
+                newGroup.getChildren().add(newRect);
+              }
+              Scene scene = new Scene(newGroup);
+              this.stage.setScene(scene);
+              this.stage.show();
+
+
+            } catch(NoRouteFoundException noRoute) {
+              System.out.println("No Route found");
+            }
+
           });
           newGroup.getChildren().add(step);
           Scene scene = new Scene(newGroup);
@@ -94,9 +106,35 @@ public class MazeApplication extends Application{
     saveR.setPrefSize(100,30);
     saveR.setLayoutX(0);
     saveR.setLayoutY(60);
-    //r.setFill(Color.WHITE);
     Group newGroup = new Group(load, loadR, saveR);
     return newGroup;
+  }
+  public ArrayList<Rectangle> printRouteFinder(String stringMaze,int yOffset){
+    ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
+    int x = 0;
+    int y = 0;
+    Rectangle newRect;
+    for(int i=0; i < stringMaze.length(); i++){
+      if (stringMaze.charAt(i) != '\n'){
+        newRect = new Rectangle(x*this.cellSize, (y*this.cellSize) + yOffset, cellSize,cellSize);
+        if(stringMaze.charAt(i) == '-'){
+          newRect.setFill(Color.YELLOW);
+        } else if (stringMaze.charAt(i) == '#'){
+          newRect.setFill(Color.BLACK);
+        } else if (stringMaze.charAt(i) == '*'){
+          newRect.setFill(Color.GREEN);
+        } else if (stringMaze.charAt(i) == '.'){
+          newRect.setFill(Color.WHITE);
+        }
+        x+= 1;
+        rects.add(newRect);
+      } else {
+        // in event of \n
+        x = 0;
+        y += 1;
+      }
+    }
+    return rects;
   }
   public void setupButtons() throws InvalidMazeException{
     this.objs = getBaseGroup();
@@ -110,12 +148,7 @@ public class MazeApplication extends Application{
     this.stage.show();
 
   }
-  public void handleLoad(ActionEvent e){
 
-  }
-  public void parseMaze(Maze m){
-    ;
-  }
   public RouteFinder getRouteFinder(){
     return this.route;
   }
