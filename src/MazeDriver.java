@@ -4,7 +4,7 @@ import java.util.List;
 import maze.routing.RouteFinder;
 import javafx.scene.Scene;
 public class MazeDriver{
-  public static void main (String args[]) throws InvalidMazeException, OutOfMazeException{
+  public static void main (String args[]) throws InvalidMazeException, OutOfMazeException, NoRouteFoundException{
     //Coordinate newCoord = new Coordinate(1,2);
     //System.out.println(newCoord.toString());
     /*
@@ -16,12 +16,14 @@ public class MazeDriver{
         System.out.println(newMaze.getTileAtLocation(new Coordinate(x,y)).toString());
       }
     }*/
-    Maze newMaze = Maze.fromTxt("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/maze1.txt");
+    Maze newMaze = Maze.fromTxt("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/valid/maze2.txt");
     System.out.print(newMaze.toString());
     RouteFinder r = new RouteFinder(newMaze);
-    for(int i = 0; i < 20; i++){
-      r.step();
+    Boolean f = false;
+    while(!f){
+      f = r.step();
       System.out.print(r.toString());
+      System.out.println();
     }
   }
 }
