@@ -71,7 +71,7 @@ public class RouteFinder implements Serializable{
     }
     return r;
   }
-  public void Save(String path){
+  public void save(String path){
     try{
       FileOutputStream fos = new FileOutputStream(path);
       ObjectOutputStream oos = new ObjectOutputStream(fos);
