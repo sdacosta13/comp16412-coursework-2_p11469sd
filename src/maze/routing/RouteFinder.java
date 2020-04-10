@@ -98,11 +98,15 @@ public class RouteFinder implements Serializable{
         }
       }
     }
+
     for(int i = 0; i < route.size(); i++){
-      Maze.Coordinate c = route.get(i).getCoords();
-      int pos = c.getY()*(this.maze.getDimensions()[0]+1)+c.getX();
-      returnString[pos] = '*';
+      if(route.get(i) != null){
+        Maze.Coordinate c = route.get(i).getCoords();
+        int pos = c.getY()*(this.maze.getDimensions()[0]+1)+c.getX();
+        returnString[pos] = '*';
+      }
     }
+
     for(int y = 0; y < this.maze.getDimensions()[1]; y++){
       for(int x = 0; x < this.maze.getDimensions()[0]; x++){
         int pos = y*(this.maze.getDimensions()[0]+1)+x;

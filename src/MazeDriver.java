@@ -5,12 +5,7 @@ import maze.routing.RouteFinder;
 import javafx.scene.Scene;
 public class MazeDriver{
   public static void main (String args[]) throws InvalidMazeException, OutOfMazeException, NoRouteFoundException, IOException{
-    System.out.println(System.getProperty("user.dir"));
-    Maze m = Maze.fromTxt("../mazes/maze1.txt");
-    RouteFinder r = new RouteFinder(m);
-    r.step();
-    r.step();
-    r.step();
-    r.save("./tests/routes/ensureSaveWritesFile.route");
+    Maze m = Maze.fromTxt("/home/sam/GitRepos/comp16412-coursework-2_p11469sd/mazes/maze3.txt");
+    System.out.print(m.toString());
   }
 }

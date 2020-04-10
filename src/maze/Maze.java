@@ -162,8 +162,8 @@ public class Maze implements Serializable{
   private void setEntrance(Tile t) throws MultipleEntranceException{
     Boolean inTiles = false;
     for(int i = 0; i < this.dimensions[1]; i++){
-      for(int j = 0; j < this.dimensions[1]; j++){
-          if(this.getTileAtLocation(new Maze.Coordinate(i,j)) == t){
+      for(int j = 0; j < this.dimensions[0]; j++){
+          if(this.getTileAtLocation(new Maze.Coordinate(j,i)) == t){
             inTiles = true;
           }
       }
@@ -180,8 +180,8 @@ public class Maze implements Serializable{
   private void setExit(Tile t) throws MultipleExitException{
     Boolean inTiles = false;
     for(int i = 0; i < this.dimensions[1]; i++){
-      for(int j = 0; j < this.dimensions[1]; j++){
-          if(this.getTileAtLocation(new Maze.Coordinate(i,j)) == t){
+      for(int j = 0; j < this.dimensions[0]; j++){
+          if(this.getTileAtLocation(new Maze.Coordinate(j,0)) == t){
             inTiles = true;
           }
       }

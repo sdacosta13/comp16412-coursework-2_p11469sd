@@ -21,6 +21,8 @@ public class MazeApplication extends Application{
   private Maze mazeToSolve;
   private RouteFinder mazeSolver;
   private Boolean mazeSolved = false;
+  public int targetX = 800;
+  public int targetY = 600;
   @Override
   public void start(Stage primaryStage){
     this.window = primaryStage;
@@ -32,7 +34,7 @@ public class MazeApplication extends Application{
     for(Button but : buts){
       buttons.getChildren().add(but);
     }
-    Scene newScene = new Scene(buttons, 800,600, Color.GREY);
+    Scene newScene = new Scene(buttons, targetX, targetY, Color.GREY);
     this.window.setScene(newScene);
     this.window.show();
   }
@@ -83,7 +85,7 @@ public class MazeApplication extends Application{
       step.setLayoutY(90);
       step.setOnAction(this::doStep);
       objs.getChildren().add(step);
-      Scene newScene = new Scene(objs, 800,600, Color.GREY);
+      Scene newScene = new Scene(objs, targetX, targetY, Color.GREY);
       this.window.setScene(newScene);
 
     }
@@ -115,7 +117,7 @@ public class MazeApplication extends Application{
       step.setLayoutY(90);
       step.setOnAction(this::doStep);
       objs.getChildren().add(step);
-      Scene newScene = new Scene(objs, 800,600, Color.GREY);
+      Scene newScene = new Scene(objs, targetX, targetY, Color.GREY);
       this.window.setScene(newScene);
     }
   }
@@ -178,6 +180,8 @@ public class MazeApplication extends Application{
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
     int x = 0;
     int y = this.mazeSolver.getMaze().getDimensions()[1]-1;
+    targetX = this.mazeSolver.getMaze().getDimensions()[0]*cellSize + cellSize;
+    targetY = this.mazeSolver.getMaze().getDimensions()[1]*cellSize + yOffset + cellSize;
     Rectangle newRect;
     for(int i=0; i < stringMaze.length(); i++){
       if (stringMaze.charAt(i) != '\n'){
