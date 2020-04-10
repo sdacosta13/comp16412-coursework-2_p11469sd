@@ -9,7 +9,7 @@ public class RouteFinder implements Serializable{
   private Stack<Tile> route;
   private boolean finished;
   private BoolArray bMap;
-  public final Direction[] dirs = {Direction.NORTH,Direction.EAST,Direction.SOUTH,Direction.WEST};//Priorities search from left or right of this list
+  public final Maze.Direction[] dirs = {Maze.Direction.NORTH,Maze.Direction.EAST,Maze.Direction.SOUTH,Maze.Direction.WEST};//Priorities search from left or right of this list
   public RouteFinder(Maze maze){
     this.route = new Stack<Tile>();
     this.maze = maze;
@@ -24,9 +24,9 @@ public class RouteFinder implements Serializable{
       boolean dead = true;
       for (int i = 0; i < 4; i++){
         Tile next = this.maze.getAdjacentTile(initial, dirs[i]);
-        if(next.getType() != Type.WALL && !this.route.contains(next) && !this.bMap.isVisited(next.getCoords())){
+        if(next.getType() != Tile.Type.WALL && !this.route.contains(next) && !this.bMap.isVisited(next.getCoords())){
           route.push(next);
-          if(next.getType() == Type.EXIT){
+          if(next.getType() == Tile.Type.EXIT){
             this.finished = true;
           }
           this.bMap.visit(next.getCoords());
@@ -89,7 +89,7 @@ public class RouteFinder implements Serializable{
     char[] returnString = bMap.toString().toCharArray();
     for(int y = 0; y < this.maze.getDimensions()[1]; y++){
       for(int x = 0; x < this.maze.getDimensions()[0]; x++){
-        String s = this.maze.getTileAtLocation(new Coordinate(x,y)).toString();
+        String s = this.maze.getTileAtLocation(new Maze.Coordinate(x,y)).toString();
         //account for \n
         if(s == "#"){
           int pos = y*(this.maze.getDimensions()[0]+1)+x;
@@ -98,7 +98,7 @@ public class RouteFinder implements Serializable{
       }
     }
     for(int i = 0; i < route.size(); i++){
-      Coordinate c = route.get(i).getCoords();
+      Maze.Coordinate c = route.get(i).getCoords();
       int pos = c.getY()*(this.maze.getDimensions()[0]+1)+c.getX();
       returnString[pos] = '*';
     }

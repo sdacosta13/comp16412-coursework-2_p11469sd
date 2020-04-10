@@ -1,3 +1,4 @@
+// Version 1.1, Friday 27th March
 package tests.dev;
 
 import java.lang.reflect.Constructor;
@@ -15,9 +16,9 @@ public class TileTest {
     // ~~~~~~~~~~ Utility Functions ~~~~~~~~~~
 
     public Object constructTypeObject(String typeValue) {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
-    	      Constructor constructor = cls.getDeclaredConstructor(
+    	      Constructor<?> constructor = cls.getDeclaredConstructor(
                 setupForInnerClassMembers()
             );
             constructor.setAccessible(true);
@@ -41,7 +42,7 @@ public class TileTest {
         return null;
     }
 
-    public Class setupForClassMembers() {
+    public Class<?> setupForClassMembers() {
         try {
             return Class.forName("maze.Tile");
         } catch (ClassNotFoundException e) {
@@ -51,7 +52,7 @@ public class TileTest {
     }
 
     public Method setupForFromChar() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("fromChar", char.class);
             method.setAccessible(true);
@@ -62,9 +63,9 @@ public class TileTest {
         return null;
     }
 
-    public Class setupForInnerClassMembers() {
-        Class cls = setupForClassMembers();
-        for (Class innerClass: cls.getDeclaredClasses()) {
+    public Class<?> setupForInnerClassMembers() {
+        Class<?> cls = setupForClassMembers();
+        for (Class<?> innerClass: cls.getDeclaredClasses()) {
             if (innerClass.getName().equals("maze.Tile$Type")) {
                 return innerClass;
             }
@@ -77,7 +78,7 @@ public class TileTest {
 
     @Test
     public void ensureTypeAttributeIsTileType() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
     	      Field typeAttribute = cls.getDeclaredField("type");
             assertSame(typeAttribute.getType(), setupForInnerClassMembers());
@@ -88,9 +89,9 @@ public class TileTest {
 
     @Test
     public void ensureConstructorArgumentIsTileType() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
-    	      Constructor constructor = cls.getDeclaredConstructor(
+    	      Constructor<?> constructor = cls.getDeclaredConstructor(
                 setupForInnerClassMembers()
             );
         } catch (NoSuchMethodException e) {
@@ -100,7 +101,7 @@ public class TileTest {
 
     @Test
     public void ensureFromCharArgumentIsChar() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("fromChar", char.class);
         } catch (NoSuchMethodException e) {
@@ -110,7 +111,7 @@ public class TileTest {
 
     @Test
     public void ensureFromCharReturnsTile() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("fromChar", char.class);
             assertSame(method.getReturnType(), cls);
@@ -121,7 +122,7 @@ public class TileTest {
 
     @Test
     public void ensurePublicMethodIsNavigable() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getMethod("isNavigable");
         } catch (NoSuchMethodException e) {
@@ -131,7 +132,7 @@ public class TileTest {
 
     @Test
     public void ensureIsNavigableNoArguments() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("isNavigable");
         } catch (NoSuchMethodException e) {
@@ -141,7 +142,7 @@ public class TileTest {
 
     @Test
     public void ensureIsNavigableReturnsBoolean() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("isNavigable");
             assertSame(method.getReturnType(), boolean.class);
@@ -152,7 +153,7 @@ public class TileTest {
 
     @Test
     public void ensurePublicMethodToString() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getMethod("toString");
             assertSame(method.getDeclaringClass(), cls);
@@ -163,7 +164,7 @@ public class TileTest {
 
     @Test
     public void ensureToStringNoArguments() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("toString");
             assertSame(method.getDeclaringClass(), cls);
@@ -174,7 +175,7 @@ public class TileTest {
 
     @Test
     public void ensureToStringReturnsString() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("toString");
             assertSame(method.getDeclaringClass(), cls);
@@ -224,7 +225,7 @@ public class TileTest {
     @Test
     public void ensureGetTypeReturnsTypeVariable() {
         Tile tile = fromChar('#');
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
     	      Field typeAttribute = cls.getDeclaredField("type");
             typeAttribute.setAccessible(true);

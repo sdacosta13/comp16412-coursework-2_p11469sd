@@ -1,3 +1,4 @@
+// Version 1.1, Friday 27th March
 package tests.dev;
 
 import java.lang.reflect.Field;
@@ -11,10 +12,10 @@ import maze.Maze;
 public class DirectionTest {
 
     // ~~~~~~~~~~ Structural tests ~~~~~~~~~~
-    
+
     @Test
     public void ensureEnum() {
-        for (Class cls: Maze.class.getDeclaredClasses()) {
+        for (Class<?> cls: Maze.class.getDeclaredClasses()) {
             if (cls.getName().equals("maze.Maze$Direction")) {
                 assertTrue(cls.isEnum());
                 return;

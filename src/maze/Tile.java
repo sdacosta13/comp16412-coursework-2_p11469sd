@@ -3,7 +3,7 @@ import java.io.*;
 public class Tile implements Serializable{
   private Type type;
   private boolean navigable;
-  private Coordinate coords;
+  private Maze.Coordinate coords;
   private Boolean visited;
   private Tile(Type type){
     this.type = type;
@@ -50,10 +50,10 @@ public class Tile implements Serializable{
     }
     return null;
   }
-  public void setCoords(Coordinate coords){
+  public void setCoords(Maze.Coordinate coords){
     this.coords = coords;
   }
-  public Coordinate getCoords(){
+  public Maze.Coordinate getCoords(){
     return this.coords;
   }
   public Boolean getVisited(){
@@ -62,4 +62,8 @@ public class Tile implements Serializable{
   public void setVisited(Boolean b){
     this.visited = b;
   }
+  public enum Type{
+    CORRIDOR, ENTRANCE, EXIT, WALL;
+  }
+
 }

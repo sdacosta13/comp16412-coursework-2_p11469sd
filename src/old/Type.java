@@ -1,4 +1,4 @@
 package maze;
-public enum Type{
+public enum Tile.Type{
   CORRIDOR, ENTRANCE, EXIT, WALL;
 }

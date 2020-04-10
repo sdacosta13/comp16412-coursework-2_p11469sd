@@ -1,6 +1,6 @@
+// Version 1.1, Tuesday 7th April @ 2:40pm
 package tests.dev;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -16,10 +16,10 @@ public class CoordinateTest {
 
     // ~~~~~~~~~~ Utility Functions ~~~~~~~~~~
 
-    public Class setupForClassMembers() {
+    public Class<?> setupForClassMembers() {
         try {
-            Class cls = Class.forName("maze.Maze");
-            for (Class innerClass: cls.getDeclaredClasses()) {
+            Class<?> cls = Class.forName("maze.Maze");
+            for (Class<?> innerClass: cls.getDeclaredClasses()) {
                 if (innerClass.getName().equals("maze.Maze$Coordinate")) {
                     return innerClass;
                 }
@@ -33,9 +33,9 @@ public class CoordinateTest {
     }
 
     public Object setupForInstanceMembers(int x, int y) {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
-              Constructor constructor = cls.getDeclaredConstructor(int.class, int.class);
+              Constructor<?> constructor = cls.getDeclaredConstructor(int.class, int.class);
               assertTrue(Modifier.isPublic(constructor.getModifiers()));
               if (Modifier.isStatic(constructor.getModifiers())) {
                   return constructor.newInstance(x, y);
@@ -56,7 +56,7 @@ public class CoordinateTest {
         Maze rtn = null;
         try {
             rtn = Maze.fromTxt("../mazes/maze1.txt");
-        } catch (FileNotFoundException e) { fail(); }
+        } catch (Exception e) { fail(); }
         return rtn;
     }
 
@@ -64,7 +64,7 @@ public class CoordinateTest {
 
     @Test
     public void ensureIntAttributeX() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
     	      Field typeAttribute = cls.getDeclaredField("x");
             assertSame(typeAttribute.getType(), int.class);
@@ -75,7 +75,7 @@ public class CoordinateTest {
 
     @Test
     public void ensureIntAttributeY() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
     	      Field typeAttribute = cls.getDeclaredField("y");
             assertSame(typeAttribute.getType(), int.class);
@@ -86,7 +86,7 @@ public class CoordinateTest {
 
     @Test
     public void ensurePublicMethodGetX() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getMethod("getX");
         } catch (NoSuchMethodException e) {
@@ -96,7 +96,7 @@ public class CoordinateTest {
 
     @Test
     public void ensureGetXNoArguments() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("getX");
         } catch (NoSuchMethodException e) {
@@ -106,7 +106,7 @@ public class CoordinateTest {
 
     @Test
     public void ensureGetXReturnsInt() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("getX");
             assertSame(method.getReturnType(), int.class);
@@ -117,7 +117,7 @@ public class CoordinateTest {
 
     @Test
     public void ensurePublicMethodGetY() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getMethod("getY");
         } catch (NoSuchMethodException e) {
@@ -127,7 +127,7 @@ public class CoordinateTest {
 
     @Test
     public void ensureGetYNoArguments() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("getY");
         } catch (NoSuchMethodException e) {
@@ -137,7 +137,7 @@ public class CoordinateTest {
 
     @Test
     public void ensureGetYReturnsInt() {
-        Class cls = setupForClassMembers();
+        Class<?> cls = setupForClassMembers();
         try {
             Method method = cls.getDeclaredMethod("getY");
             assertSame(method.getReturnType(), int.class);

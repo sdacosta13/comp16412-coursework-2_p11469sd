@@ -19,7 +19,7 @@ public class BoolArray implements Serializable{
   public ArrayList<ArrayList<Boolean>> get(){
     return this.array;
   }
-  public Boolean isVisited(Coordinate c){
+  public Boolean isVisited(Maze.Coordinate c){
     if (c.getX() < 0 || c.getY() < 0 || c.getX() >= this.xSize() || c.getY() >= this.ySize()){
       return true;
     } else {
@@ -32,16 +32,16 @@ public class BoolArray implements Serializable{
   public int xSize(){
     return this.array.get(0).size();
   }
-  public void visit(Coordinate c){
+  public void visit(Maze.Coordinate c){
     this.array.get(c.getY()).set(c.getX(), true);
   }
   public static BoolArray ScanMaze(Maze m){
-    Coordinate target;
+    Maze.Coordinate target;
     BoolArray newArray = new BoolArray(m.getDimensions());
     for(int y = 0; y < newArray.ySize(); y++){
       for(int x = 0; x < newArray.xSize(); x++){
-        target = new Coordinate(x,y);
-        if(m.getTileAtLocation(target).getType() == Type.WALL){
+        target = new Maze.Coordinate(x,y);
+        if(m.getTileAtLocation(target).getType() == Tile.Type.WALL){
           newArray.visit(target);
         }
       }
@@ -52,7 +52,7 @@ public class BoolArray implements Serializable{
     String returnString = "";
     for(int y = 0; y < this.ySize(); y++){
       for(int x = 0; x < this.xSize(); x++){
-        if(this.isVisited(new Coordinate(x,y))){
+        if(this.isVisited(new Maze.Coordinate(x,y))){
           returnString += "1";
         } else {
           returnString += "0";

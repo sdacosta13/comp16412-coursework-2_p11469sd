@@ -1,5 +1,4 @@
 find . -name "*.class" -type f -delete
-rm -r bin
 
 javac -d ./bin tests/ModifierChecker.java
 isStatic=$(java -cp bin tests/ModifierChecker)
@@ -10,6 +9,7 @@ javac -d ./bin -cp .:junit-platform-console-standalone.jar ./tests/*/ExceptionTe
 javac -d ./bin -cp .:junit-platform-console-standalone.jar ./tests/*/MazeTest.java
 javac -d ./bin -cp .:junit-platform-console-standalone.jar ./tests/*/RouteFinderTest.java
 javac -d ./bin -cp .:junit-platform-console-standalone.jar ./tests/*/TileTest.java
+javac -d ./bin -cp .:junit-platform-console-standalone.jar ./tests/*/VisualisationTest.java
 
 if [ "$isStatic" == "true" ]
 then

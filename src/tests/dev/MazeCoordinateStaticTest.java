@@ -1,6 +1,5 @@
+// Version 1.1, Tuesday 7th April @ 2:40pm
 package tests.dev;
-
-import java.io.FileNotFoundException;
 
 import java.lang.reflect.Field;
 
@@ -19,7 +18,7 @@ public class MazeCoordinateStaticTest {
         Maze rtn = null;
         try {
             rtn = Maze.fromTxt("../mazes/maze1.txt");
-        } catch (FileNotFoundException e) { fail(); }
+        } catch (Exception e) { fail(); }
         return rtn;
     }
 

@@ -1,6 +1,5 @@
+// Version 1.1, Tuesday 7th April @ 2:40pm
 package tests.dev;
-
-import java.io.FileNotFoundException;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,7 +16,7 @@ public class MazeCoordinateNotStaticTest {
         Maze rtn = null;
         try {
             rtn = Maze.fromTxt("../mazes/maze1.txt");
-        } catch (FileNotFoundException e) { fail(); }
+        } catch (Exception e) { fail(); }
         return rtn;
     }
 

@@ -1,5 +1,6 @@
 package maze;
 import java.io.*;
+import java.util.List;
 import java.util.ArrayList;
 public class Maze implements Serializable{
   private Tile entrance;
@@ -148,5 +149,25 @@ public class Maze implements Serializable{
   }
   public int[] getDimensions(){
     return this.dimensions;
+  }
+  public enum Direction{
+    NORTH, SOUTH, EAST, WEST;
+  }
+  public static class Coordinate{
+    private int x;
+    private int y;
+    public Coordinate(int i, int j){
+      this.x = i;
+      this.y = j;
+    }
+    public int getX(){
+      return this.x;
+    }
+    public int getY(){
+      return this.y;
+    }
+    public String toString(){
+      return "(" + this.x + "," + this.y + ")";
+    }
   }
 }
