@@ -17,7 +17,7 @@ public class RouteFinder implements Serializable{
     route.push(this.maze.getEntrance());
 
   }
-  public Boolean step() throws NoRouteFoundException{
+  public boolean step() throws NoRouteFoundException{
     if (!this.isFinished()){
       Tile initial = route.pop();
       route.push(initial);
@@ -64,10 +64,10 @@ public class RouteFinder implements Serializable{
 
     } catch (IOException e){
       System.out.println("IOException occured");
-      e.printStackTrace();
+
     } catch (ClassNotFoundException e){
       System.out.println("Class: %s not found".format(path));
-      e.printStackTrace();
+
     }
     return r;
   }
@@ -79,6 +79,7 @@ public class RouteFinder implements Serializable{
       oos.close();
     } catch (FileNotFoundException e) {
       System.out.println("File not found exception occured");
+
 
     }
   }

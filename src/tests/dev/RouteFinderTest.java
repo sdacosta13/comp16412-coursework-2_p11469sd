@@ -450,6 +450,7 @@ public class RouteFinderTest {
 
     @Test
     public void ensureSaveWritesFile() {
+	System.out.println(System.getProperty("user.dir"));
         ensureMaze1SaveWritesFile("../routes/ensureSaveWritesFile.route", 3);
     }
 

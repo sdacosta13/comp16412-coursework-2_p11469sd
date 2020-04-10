@@ -59,32 +59,53 @@ public class Maze implements Serializable{
       String newString = "";
       int nls = 0;
       int j;
+      int x = 0;
+      ArrayList<Integer> lens = new ArrayList<Integer>();
       while((j=newFile.read()) != -1){
+        x += 1;
         char curChar = (char) j;
         if( curChar == '\n'){
           nls += 1;
+          lens.add(x);
+          x = 0;
         }
+
         newString += String.valueOf(curChar);
 
       }
-      int posOfNewLine = newString.indexOf('\n');
+      Boolean different = false;
+      for(int i = 0; i < lens.size(); i++){
+        if(lens.get(0) != lens.get(i)){
+          different = true;
+        }
+      }
+      if(different){
+        throw new RaggedMazeException("Maze lines differ in size");
+      }
 
+
+      int posOfNewLine = newString.indexOf('\n');
+      if (newString.charAt(newString.length()-1) == '\n'){
+        nls -= 1;
+        newString = newString.substring(0,newString.length()-1);
+      }
 
 
       //-------------------------------------
       newMaze = new Maze();
+      nls += 1;
       newMaze.setDimensions(posOfNewLine,nls);
-
       List<List<Tile>> newTiles = new ArrayList<List<Tile>>();
       for(int i = 0; i < nls; i++){
         newTiles.add(new ArrayList<Tile>());
       }
       int y = nls-1;
-      int x = 0;
+      x = 0;
       Maze.Coordinate entryLoc = null;
       Maze.Coordinate exitLoc = null;
       for(int i = 0; i <newString.length(); i++){
         char curChar = newString.charAt(i);
+
         if(curChar == 'e'){
           entriesSeen += 1;
           entryLoc = new Maze.Coordinate(x,y);
@@ -102,6 +123,7 @@ public class Maze implements Serializable{
           x = 0;
 
         }
+
 
 
       }
@@ -138,18 +160,38 @@ public class Maze implements Serializable{
     return null;
   }
   private void setEntrance(Tile t) throws MultipleEntranceException{
-    if(this.entrance == null){
-      this.entrance = t;
-    } else {
-      throw new MultipleEntranceException("Multiple entrances found");
+    Boolean inTiles = false;
+    for(int i = 0; i < this.dimensions[1]; i++){
+      for(int j = 0; j < this.dimensions[1]; j++){
+          if(this.getTileAtLocation(new Maze.Coordinate(i,j)) == t){
+            inTiles = true;
+          }
+      }
+    }
+    if(inTiles){
+      if(this.entrance == null){
+        this.entrance = t;
+      } else {
+        throw new MultipleEntranceException("Multiple entrances found");
+      }
     }
 
   }
   private void setExit(Tile t) throws MultipleExitException{
-    if(this.exit == null){
-      this.exit = t;
-    } else {
-      throw new MultipleExitException("Multiple exits found");
+    Boolean inTiles = false;
+    for(int i = 0; i < this.dimensions[1]; i++){
+      for(int j = 0; j < this.dimensions[1]; j++){
+          if(this.getTileAtLocation(new Maze.Coordinate(i,j)) == t){
+            inTiles = true;
+          }
+      }
+    }
+    if(inTiles){
+      if(this.exit == null){
+        this.exit = t;
+      } else {
+        throw new MultipleExitException("Multiple exits found");
+      }
     }
 
   }
@@ -177,7 +219,7 @@ public class Maze implements Serializable{
   public enum Direction{
     NORTH, SOUTH, EAST, WEST;
   }
-  public static class Coordinate{
+  public static class Coordinate implements Serializable{
     private int x;
     private int y;
     public Coordinate(int i, int j){

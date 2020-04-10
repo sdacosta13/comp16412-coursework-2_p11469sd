@@ -92,7 +92,7 @@ public class MazeApplication extends Application{
   }
   private void loadRoute(ActionEvent evt){
     FileChooser fl = new FileChooser();
-    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("OBJECT files (*.obj)","*.obj");
+    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("ROUTE files (*.route)","*.route");
     fl.getExtensionFilters().add(filter);
     File selected = null;
     selected = fl.showOpenDialog(this.window);
@@ -122,14 +122,12 @@ public class MazeApplication extends Application{
 
   private void saveRoute(ActionEvent evt){
     FileChooser fl = new FileChooser();
-    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("OBJECT files (*.obj)","*.obj");
-    fl.getExtensionFilters().add(filter);
     File selected = null;
     selected = fl.showSaveDialog(this.window);
     if(selected != null){
       String path = selected.getAbsolutePath();
       try{
-        this.mazeSolver.save(path);
+        this.mazeSolver.save(path+".route");
       } catch (IOException e){
         System.out.println("IO Error occured");
       }
