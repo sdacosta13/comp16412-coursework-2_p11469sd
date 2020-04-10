@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 public class Maze implements Serializable{
-  private Tile entrance;
-  private Tile exit;
+  private Tile entrance = null;
+  private Tile exit = null;
   private List<List<Tile>> tiles;
   private int[] dimensions;
   private Maze(){
@@ -14,7 +14,7 @@ public class Maze implements Serializable{
   }
   public String toString(){
     String returnString = "";
-    for(int y = 0; y < this.getDimensions()[1]; y++){
+    for(int y = this.getDimensions()[1]-1; y >= 0; y--){
       for(int x = 0; x < this.getDimensions()[0]; x++){
         returnString += this.getTileAtLocation(new Coordinate(x,y)).toString();
       }
@@ -28,10 +28,10 @@ public class Maze implements Serializable{
     int y = baseCoords.getY();
     switch (d){
       case NORTH:
-        y -= 1;
+        y += 1;
         break;
       case SOUTH:
-        y += 1;
+        y -= 1;
         break;
       case EAST:
         x += 1;
@@ -50,49 +50,62 @@ public class Maze implements Serializable{
     }
   }
   public static Maze fromTxt(String path) throws InvalidMazeException{
-    Maze newMaze = new Maze();
-    List<List<Tile>> newTiles = new ArrayList<List<Tile>>();
-    newTiles.add(new ArrayList<Tile>());
-    try{
+    //Get dimensions first
+    int entriesSeen = 0;
+    int exitsSeen = 0;
+    Maze newMaze = null;
+    try {
       FileReader newFile = new FileReader(path);
-      int i;
-      int dimX = 0;
+      String newString = "";
+      int nls = 0;
+      int j;
+      while((j=newFile.read()) != -1){
+        char curChar = (char) j;
+        if( curChar == '\n'){
+          nls += 1;
+        }
+        newString += String.valueOf(curChar);
+
+      }
+      int posOfNewLine = newString.indexOf('\n');
+
+
+
+      //-------------------------------------
+      newMaze = new Maze();
+      newMaze.setDimensions(posOfNewLine,nls);
+
+      List<List<Tile>> newTiles = new ArrayList<List<Tile>>();
+      for(int i = 0; i < nls; i++){
+        newTiles.add(new ArrayList<Tile>());
+      }
+      int y = nls-1;
       int x = 0;
-      int y = 0;
-      int entriesSeen = 0;
-      int exitsSeen = 0;
-      Coordinate exitLoc = new Coordinate(0,0);
-      Coordinate entryLoc = new Coordinate(0,0);
-      boolean setDim = true;
-      char curChar = ' ';
-      while ((i=newFile.read()) != -1){
-        curChar = (char) i;
+      Maze.Coordinate entryLoc = null;
+      Maze.Coordinate exitLoc = null;
+      for(int i = 0; i <newString.length(); i++){
+        char curChar = newString.charAt(i);
         if(curChar == 'e'){
           entriesSeen += 1;
-          entryLoc = new Coordinate(x,y);
+          entryLoc = new Maze.Coordinate(x,y);
         } else if (curChar == 'x'){
           exitsSeen += 1;
-          exitLoc = new Coordinate(x,y);
-        } else if (curChar != '#' && curChar != '.' && curChar != '\n'){
-          throw new RaggedMazeException(String.format("Char: %c found in maze",curChar));
+          exitLoc = new Maze.Coordinate(x,y);
         }
         if(curChar != '\n'){
           Tile newTile = Tile.fromChar(curChar);
           newTile.setCoords(new Coordinate(x,y));
           newTiles.get(y).add(newTile);
           x+= 1;
-          if(setDim){
-            //this method is error prone to different line lengths
-            dimX += 1;
-          }
         } else {
+          y -= 1;
           x = 0;
-          setDim = false;
-          y += 1;
-          newTiles.add(new ArrayList<Tile>());
+
         }
 
+
       }
+
       if(entriesSeen < 1){
         throw new NoEntranceException("No Entrance in " + path);
       } else if (entriesSeen > 1){
@@ -103,7 +116,7 @@ public class Maze implements Serializable{
         throw new MultipleExitException("Multiple Exits Found in " + path);
       }
 
-      newMaze.setDimensions(dimX,y);
+
       newMaze.setTiles(newTiles);
       newMaze.setExit(newMaze.getTileAtLocation(exitLoc));
       newMaze.setEntrance(newMaze.getTileAtLocation(entryLoc));
@@ -112,7 +125,6 @@ public class Maze implements Serializable{
     } catch (IOException e){
       System.out.println("IOException");
     }
-
     return newMaze;
   }
   public Coordinate getTileLocation(Tile t){
@@ -125,11 +137,21 @@ public class Maze implements Serializable{
     }
     return null;
   }
-  private void setEntrance(Tile t){
-    this.entrance = t;
+  private void setEntrance(Tile t) throws MultipleEntranceException{
+    if(this.entrance == null){
+      this.entrance = t;
+    } else {
+      throw new MultipleEntranceException("Multiple entrances found");
+    }
+
   }
-  private void setExit(Tile t){
-    this.exit = t;
+  private void setExit(Tile t) throws MultipleExitException{
+    if(this.exit == null){
+      this.exit = t;
+    } else {
+      throw new MultipleExitException("Multiple exits found");
+    }
+
   }
   public Tile getEntrance(){
     return this.entrance;
@@ -144,7 +166,7 @@ public class Maze implements Serializable{
     this.tiles = newTiles;
   }
   public Tile getTileAtLocation(Coordinate target){
-    return this.tiles.get(target.getY()).get(target.getX());
+    return this.getTiles().get(target.getY()).get(target.getX());
   }
   private void setDimensions(int len, int height){
     this.dimensions = new int[]{len, height};
@@ -169,7 +191,7 @@ public class Maze implements Serializable{
       return this.y;
     }
     public String toString(){
-      return "(" + this.x + "," + this.y + ")";
+      return "(" + this.x + ", " + this.y + ")";
     }
   }
 }

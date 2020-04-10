@@ -27,7 +27,7 @@ public class MazeTest {
 
     // ~~~~~~~~~~ Utility Functions ~~~~~~~~~~
 
-    public boolean checkIfEntranceThrowsMultipleEntranceExceptionIfEntranceNotEmpty(Maze maze) {
+    public boolean checkIfSetEntranceThrowsMultipleEntranceExceptionIfEntranceNotEmpty(Maze maze) {
         Tile newEntrance = fromChar('e');
         Class cls = setupForClassMembers();
 

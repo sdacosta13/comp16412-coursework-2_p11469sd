@@ -7,9 +7,9 @@ public class RouteFinder implements Serializable{
 
   private Maze maze;
   private Stack<Tile> route;
-  private boolean finished;
+  private boolean finished = false;
   private BoolArray bMap;
-  public final Maze.Direction[] dirs = {Maze.Direction.NORTH,Maze.Direction.EAST,Maze.Direction.SOUTH,Maze.Direction.WEST};//Priorities search from left or right of this list
+  public final Maze.Direction[] dirs = {Maze.Direction.WEST, Maze.Direction.NORTH, Maze.Direction.EAST, Maze.Direction.SOUTH};//Priorities search from left or right of this list
   public RouteFinder(Maze maze){
     this.route = new Stack<Tile>();
     this.maze = maze;
@@ -71,15 +71,15 @@ public class RouteFinder implements Serializable{
     }
     return r;
   }
-  public void save(String path){
+  public void save(String path) throws IOException{
     try{
       FileOutputStream fos = new FileOutputStream(path);
       ObjectOutputStream oos = new ObjectOutputStream(fos);
       oos.writeObject(this);
       oos.close();
-    } catch (IOException e) {
-      System.out.println("IOException occured");
-      e.printStackTrace();
+    } catch (FileNotFoundException e) {
+      System.out.println("File not found exception occured");
+
     }
   }
   public String toString(){

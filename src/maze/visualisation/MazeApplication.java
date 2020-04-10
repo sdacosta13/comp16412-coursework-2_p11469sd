@@ -9,6 +9,7 @@ import javafx.stage.FileChooser;
 import javafx.event.*;
 import javafx.scene.input.MouseEvent;
 import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import maze.*;
 import maze.routing.RouteFinder;
@@ -127,7 +128,11 @@ public class MazeApplication extends Application{
     selected = fl.showSaveDialog(this.window);
     if(selected != null){
       String path = selected.getAbsolutePath();
-      this.mazeSolver.save(path);
+      try{
+        this.mazeSolver.save(path);
+      } catch (IOException e){
+        System.out.println("IO Error occured");
+      }
     }
   }
 
@@ -174,7 +179,7 @@ public class MazeApplication extends Application{
     int yOffset = 120;
     ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
     int x = 0;
-    int y = 0;
+    int y = this.mazeSolver.getMaze().getDimensions()[1]-1;
     Rectangle newRect;
     for(int i=0; i < stringMaze.length(); i++){
       if (stringMaze.charAt(i) != '\n'){
@@ -193,7 +198,7 @@ public class MazeApplication extends Application{
       } else {
         // in event of \n
         x = 0;
-        y += 1;
+        y -= 1;
       }
     }
     return rects;
