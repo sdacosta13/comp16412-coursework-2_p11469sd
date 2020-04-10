@@ -2,10 +2,11 @@ package maze;
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 public class Maze implements Serializable{
   private Tile entrance;
   private Tile exit;
-  private ArrayList<ArrayList<Tile>> tiles;
+  private List<List<Tile>> tiles;
   private int[] dimensions;
   private Maze(){
     ;
@@ -49,7 +50,8 @@ public class Maze implements Serializable{
   }
   public static Maze fromTxt(String path) throws InvalidMazeException{
     Maze newMaze = new Maze();
-    ArrayList<ArrayList<Tile>> newTiles = new ArrayList<ArrayList<Tile>>();
+    List<List<Tile>> newTiles = Arrays.asList(Arrays.asList());
+    //ArrayList<ArrayList<Tile>> newTiles = new ArrayList<ArrayList<Tile>>();
     newTiles.add(new ArrayList<Tile>());
     try{
       FileReader newFile = new FileReader(path);
@@ -135,10 +137,10 @@ public class Maze implements Serializable{
   public Tile getExit(){
     return this.exit;
   }
-  public ArrayList<ArrayList<Tile>> getTiles(){
+  public List<List<Tile>> getTiles(){
     return this.tiles;
   }
-  private void setTiles(ArrayList<ArrayList<Tile>> newTiles){
+  private void setTiles(List<List<Tile>> newTiles){
     this.tiles = newTiles;
   }
   public Tile getTileAtLocation(Coordinate target){
