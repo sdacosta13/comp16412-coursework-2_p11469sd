@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 public class Maze implements Serializable{
   private Tile entrance;
   private Tile exit;
@@ -50,8 +51,7 @@ public class Maze implements Serializable{
   }
   public static Maze fromTxt(String path) throws InvalidMazeException{
     Maze newMaze = new Maze();
-    List<List<Tile>> newTiles = Arrays.asList(Arrays.asList());
-    //ArrayList<ArrayList<Tile>> newTiles = new ArrayList<ArrayList<Tile>>();
+    List<List<Tile>> newTiles = new ArrayList<List<Tile>>();
     newTiles.add(new ArrayList<Tile>());
     try{
       FileReader newFile = new FileReader(path);
