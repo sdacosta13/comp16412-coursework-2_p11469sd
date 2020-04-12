@@ -4,14 +4,26 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+/**
+ * Stores and manipulates mazes
+ */
 public class Maze implements Serializable{
+  /** Holds the tile containing the enterance to the maze */
   private Tile entrance = null;
+  /** Holds the tile containing the exit to the maze */
   private Tile exit = null;
+  /** Holds the array of tiles to represemt the maze */
   private List<List<Tile>> tiles;
+  /** Holds the dimension of the maze in the form, [x ,y] */
   private int[] dimensions;
+  /** Constructer used as a placeholder */
   private Maze(){
     ;
   }
+  /**
+   * Converts the tiles array to a printable string
+   * @return a string representation of the maze, for the console
+   */
   public String toString(){
     String returnString = "";
     for(int y = this.getDimensions()[1]-1; y >= 0; y--){
@@ -22,6 +34,11 @@ public class Maze implements Serializable{
     }
     return returnString;
   }
+  /**
+   * @param t - the target base tile to get the adjacent tile from
+   * @param d - the direction in which to check from the target tile
+   * @return Tile adjacent to t, in the direction d
+   */
   public Tile getAdjacentTile(Tile t, Direction d){
     Coordinate baseCoords = t.getCoords();
     int x = baseCoords.getX();
@@ -49,6 +66,10 @@ public class Maze implements Serializable{
       return this.getTileAtLocation(new Coordinate(x,y));
     }
   }
+  /**
+   * @param path - takes the absolute path of the maze.txt file to be read
+   * @return a maze object representing the txt file
+   */
   public static Maze fromTxt(String path) throws InvalidMazeException{
     //Get dimensions first
     int entriesSeen = 0;
@@ -149,6 +170,10 @@ public class Maze implements Serializable{
     }
     return newMaze;
   }
+  /**
+   * @param t - the target tile which you want the coordinates to
+   * @return the coordinate of tile t
+   */
   public Coordinate getTileLocation(Tile t){
     for(int y = 0; y < this.getDimensions()[1]; y++){
       for(int x = 0; x < this.getDimensions()[0]; x++){
@@ -159,6 +184,10 @@ public class Maze implements Serializable{
     }
     return null;
   }
+  /**
+   * Sets the enterance attribute
+   * @param t - the entrance tile
+   */
   private void setEntrance(Tile t) throws MultipleEntranceException{
     Boolean inTiles = false;
     for(int i = 0; i < this.dimensions[1]; i++){
@@ -177,6 +206,10 @@ public class Maze implements Serializable{
     }
 
   }
+  /**
+   * Sets the exit attribute
+   * @param t - the exit tile
+   */
   private void setExit(Tile t) throws MultipleExitException{
     Boolean inTiles = false;
     for(int i = 0; i < this.dimensions[1]; i++){
@@ -195,43 +228,105 @@ public class Maze implements Serializable{
     }
 
   }
+  /**
+   * @return the enterance attribute Tile
+   */
   public Tile getEntrance(){
     return this.entrance;
   }
+  /**
+   * @return the exit atrribute Tile
+   */
   public Tile getExit(){
     return this.exit;
   }
+  /**
+   * @return a 2d list containing the tiles representing the maze
+   */
   public List<List<Tile>> getTiles(){
     return this.tiles;
   }
+  /**
+   * @param newTiles - a new 2d list of Tiles
+   */
   private void setTiles(List<List<Tile>> newTiles){
     this.tiles = newTiles;
   }
+  /**
+   * @param target - a coordinate object with coordinates of the tile you want
+   * @return the tile at the coordinates of target
+   */
   public Tile getTileAtLocation(Coordinate target){
     return this.getTiles().get(target.getY()).get(target.getX());
   }
+  /**
+   * @param len - sets the x dimension of the 2d list
+   * @param height - sets the y dimension of the 2d list
+   */
   private void setDimensions(int len, int height){
     this.dimensions = new int[]{len, height};
   }
+  /**
+   * @return returns an array containing the dimensions of tiles
+   */
   public int[] getDimensions(){
     return this.dimensions;
   }
+  /**
+   * Directions that can be used
+   */
   public enum Direction{
-    NORTH, SOUTH, EAST, WEST;
+    /**
+     * North direction
+     */
+    NORTH,
+    /**
+     * South direction
+     */
+    SOUTH,
+    /**
+     * East direction
+     */
+    EAST,
+    /**
+     * West direction
+     */
+    WEST;
   }
+  /**
+   * Static class coordinate, used to hold x,y of a tile
+   */
   public static class Coordinate implements Serializable{
+    /**
+     * Stores the x coordinate
+     */
     private int x;
+    /**
+     * Stores the y coordinate
+     */
     private int y;
+    /**
+     * Constructer for a coordinate
+     */
     public Coordinate(int i, int j){
       this.x = i;
       this.y = j;
     }
+    /**
+     * returns x coord
+     */
     public int getX(){
       return this.x;
     }
+    /**
+     * returns y coord
+     */
     public int getY(){
       return this.y;
     }
+    /**
+     * returns a string interpretation in the form (x, y)
+     */
     public String toString(){
       return "(" + this.x + ", " + this.y + ")";
     }
