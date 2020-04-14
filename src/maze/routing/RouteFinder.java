@@ -3,6 +3,9 @@ import java.util.Stack;
 import maze.*;
 import java.io.*;
 import java.util.List;
+/**
+ * Class to appy the route finding algorithm
+ */
 public class RouteFinder implements Serializable{
 
   private Maze maze;
@@ -10,6 +13,10 @@ public class RouteFinder implements Serializable{
   private boolean finished = false;
   private BoolArray bMap;
   public final Maze.Direction[] dirs = {Maze.Direction.WEST, Maze.Direction.NORTH, Maze.Direction.EAST, Maze.Direction.SOUTH};//Priorities search from left or right of this list
+  /**
+   * Constructor to setup new unsolved mazeSolved
+   * @param maze - maze to be solved
+   */
   public RouteFinder(Maze maze){
     this.route = new Stack<Tile>();
     this.maze = maze;
@@ -17,6 +24,10 @@ public class RouteFinder implements Serializable{
     route.push(this.maze.getEntrance());
 
   }
+  /**
+   * A call to this function will take a step through the maze
+   * @return a bool representing if the maze is finished or not
+   */
   public boolean step() throws NoRouteFoundException{
     if (!this.isFinished()){
       Tile initial = route.pop();
@@ -44,15 +55,28 @@ public class RouteFinder implements Serializable{
     }
     return this.isFinished();
   }
+  /**
+   * @return the Maze being solved
+   */
   public Maze getMaze(){
     return this.maze;
   }
+  /**
+   * @return the current route through the maze, not neccesarily fully solved
+   */
   public List<Tile> getRoute(){
     return this.route;
   }
+  /**
+   * @return the state the routefinding algorithm is in
+   */
   public boolean isFinished(){
     return this.finished;
   }
+  /**
+   * Constructor for RouteFinder, used to read in .route objects
+   * @param path - the path to the .route object
+   */
   public static RouteFinder load(String path){
     RouteFinder r = null;
     try{
@@ -71,6 +95,10 @@ public class RouteFinder implements Serializable{
     }
     return r;
   }
+  /**
+   * Method to save the object to a .route object
+   * @param path - the path denoting where the .route object should be stored
+   */
   public void save(String path) throws IOException{
     try{
       FileOutputStream fos = new FileOutputStream(path);
@@ -83,6 +111,17 @@ public class RouteFinder implements Serializable{
 
     }
   }
+  /**
+   * Overlays the bMap.toString() method, maze.toString() method, and the path
+   * <p> Generates a printable string with the following tiles denoted differently
+   * <p><ol>
+   * <li> unvisted path tiles
+   * <li> visited path tiles
+   * <li> route tiles
+   * <li> wall tiles
+   * <\ol>
+   * @return a printable string represntation of the maze
+   */
   public String toString(){
     //Draw bMap first
     //Overwrite with Maze map

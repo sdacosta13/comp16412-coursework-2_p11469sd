@@ -214,7 +214,7 @@ public class Maze implements Serializable{
     Boolean inTiles = false;
     for(int i = 0; i < this.dimensions[1]; i++){
       for(int j = 0; j < this.dimensions[0]; j++){
-          if(this.getTileAtLocation(new Maze.Coordinate(j,0)) == t){
+          if(this.getTileAtLocation(new Maze.Coordinate(j,i)) == t){
             inTiles = true;
           }
       }

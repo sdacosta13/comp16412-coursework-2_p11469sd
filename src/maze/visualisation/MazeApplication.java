@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import maze.*;
 import maze.routing.RouteFinder;
 
-
+/**
+ * main application class to be run
+ */
 public class MazeApplication extends Application{
   public final int cellSize = 50;
   public Stage window;
@@ -23,6 +25,9 @@ public class MazeApplication extends Application{
   private Boolean mazeSolved = false;
   public int targetX = 800;
   public int targetY = 600;
+  /**
+   * called at the start of the program
+   */
   @Override
   public void start(Stage primaryStage){
     this.window = primaryStage;
@@ -38,9 +43,9 @@ public class MazeApplication extends Application{
     this.window.setScene(newScene);
     this.window.show();
   }
-  public Scene getLoadMazeSolver(){
-    return null;
-  }
+  /**
+   * @return a list of the main 3 buttons
+   */
   public Button[] getButtons(){
     Button load = new Button("Load Maze");
     Button loadR = new Button("Load Route");
@@ -64,6 +69,10 @@ public class MazeApplication extends Application{
     buts[2] = saveR;
     return buts;
   }
+  /**
+   * Called when the step button is clicked.
+   * this will call step() once and change the state of the maze on screen
+   */
   private void doStep(ActionEvent evt){
     if(!this.mazeSolved){
       try{
@@ -92,6 +101,11 @@ public class MazeApplication extends Application{
 
 
   }
+  /**
+   * Called when the load route button is clicked
+   * This will load the maze and route finder objects and their states
+   * this will also display the maze and step button
+   */
   private void loadRoute(ActionEvent evt){
     FileChooser fl = new FileChooser();
     FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("ROUTE files (*.route)","*.route");
@@ -121,7 +135,11 @@ public class MazeApplication extends Application{
       this.window.setScene(newScene);
     }
   }
-
+  /**
+   * Called when the save button is clicked
+   * This will open a FileChooser widget to select a path
+   * this will then save the file
+   */
   private void saveRoute(ActionEvent evt){
     FileChooser fl = new FileChooser();
     File selected = null;
@@ -135,7 +153,10 @@ public class MazeApplication extends Application{
       }
     }
   }
-
+  /**
+   * Called when the load maze button is clicked.
+   * this will load an display a maze to the screen. It will get the path via FileChooser
+   */
   private void loadMazeHandler(ActionEvent evt){
     this.mazeSolved = false;
     FileChooser fl = new FileChooser();
@@ -174,6 +195,10 @@ public class MazeApplication extends Application{
       }
     }
   }
+  /**
+   * Used to convert the RouteFinder.toString() method to Rectangle's in the correct position
+   * @return A list of rectangles configured to display a maze
+   */
   private ArrayList<Rectangle> generateMazeTiles(){
     String stringMaze = this.mazeSolver.toString();
     int yOffset = 120;
